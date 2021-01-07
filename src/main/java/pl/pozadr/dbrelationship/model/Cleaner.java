@@ -4,44 +4,31 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "professors")
-public class Professor {
+@Table(name = "cleaners")
+public class Cleaner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String surname;
-    private String title;
 
-    @ManyToMany
-    private Set<Student> studentSet;
+    @ManyToMany(mappedBy = "cleanerSet")
+    private Set<Room> roomSet;
 
-    @OneToOne
-    private Room room;
-
-    public Professor() {
+    public Cleaner() {
     }
 
-    public Professor(String name, String surname, String title) {
+    public Cleaner(String name, String surname) {
         this.name = name;
         this.surname = surname;
-        this.title = title;
     }
 
-    public Room getRoom() {
-        return room;
+    public Set<Room> getRoomSet() {
+        return roomSet;
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
-    }
-
-    public Set<Student> getStudentSet() {
-        return studentSet;
-    }
-
-    public void setStudentSet(Set<Student> studentSet) {
-        this.studentSet = studentSet;
+    public void setRoomSet(Set<Room> roomSet) {
+        this.roomSet = roomSet;
     }
 
     public Long getId() {
@@ -66,13 +53,5 @@ public class Professor {
 
     public void setSurname(String surname) {
         this.surname = surname;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 }

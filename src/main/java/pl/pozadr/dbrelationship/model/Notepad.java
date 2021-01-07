@@ -24,6 +24,7 @@ public class Notepad {
         this.title = title;
     }
 
+
     public Backpack getBackpack() {
         return backpack;
     }

@@ -19,15 +19,19 @@ public class Main {
     NotepadRepo notepadRepo;
     ProfesorRepo professorRepo;
     NoteRepo noteRepo;
+    RoomRepo roomRepo;
+    CleanerRepo cleanerRepo;
 
     @Autowired
     public Main(BackpackRepo backpackRepo, StudentRepo studentRepo, NotepadRepo notepadRepo, ProfesorRepo professorRepo,
-                NoteRepo noteRepo) {
+                NoteRepo noteRepo, RoomRepo roomRepo, CleanerRepo cleanerRepo) {
         this.backpackRepo = backpackRepo;
         this.studentRepo = studentRepo;
         this.notepadRepo = notepadRepo;
         this.professorRepo = professorRepo;
         this.noteRepo = noteRepo;
+        this.roomRepo = roomRepo;
+        this.cleanerRepo = cleanerRepo;
     }
 
     @EventListener(ApplicationReadyEvent.class)
@@ -85,11 +89,41 @@ public class Main {
         student2.setBackpack(nikeBackpack);
         Set<Student> studentSet = Stream.of(student1, student2).collect(Collectors.toSet());
 
-        //professors
-        Professor prof1 = new Professor("Antoni", "Znamsie", "dr hab.");
-        Professor prof2 = new Professor("Janusz", "Wiem", "dr");
-        Set<Professor> professorSet = Stream.of(prof1, prof2).collect(Collectors.toSet());
+        // cleaners
+        Cleaner cleaner1 = new Cleaner("Adam", "Smith");
+        Cleaner cleaner2 = new Cleaner("John", "Sparrow");
+        Cleaner cleaner3 = new Cleaner("Luke", "Sky");
+        Set<Cleaner> cleanerSet1 = Stream.of(cleaner1).collect(Collectors.toSet());
+        Set<Cleaner> cleanerSet2_3 = Stream.of(cleaner2, cleaner3).collect(Collectors.toSet());
 
+        // rooms
+        Room room4 = new Room(4L);
+        Room room46 = new Room(46L);
+        Room room50 = new Room(50L);
+        Set<Room> roomSet4 = Stream.of(room4).collect(Collectors.toSet());
+        Set<Room> roomSet46_50 = Stream.of(room46, room50).collect(Collectors.toSet());
+        room4.setCleanerSet(cleanerSet1);
+        room46.setCleanerSet(cleanerSet2_3);
+        room50.setCleanerSet(cleanerSet2_3);
+
+        cleaner1.setRoomSet(roomSet4);
+        cleaner2.setRoomSet(roomSet46_50);
+        cleaner3.setRoomSet(roomSet46_50);
+
+        cleanerRepo.save(cleaner1);
+        cleanerRepo.save(cleaner2);
+        cleanerRepo.save(cleaner3);
+
+        roomRepo.save(room4);
+        roomRepo.save(room46);
+        roomRepo.save(room46);
+
+        //professors
+        Professor prof1 = new Professor("Antoni", "Iknew", "dr hab.");
+        prof1.setRoom(room4);
+        Professor prof2 = new Professor("Janusz", "Iknow", "dr");
+        prof2.setRoom(room46);
+        Set<Professor> professorSet = Stream.of(prof1, prof2).collect(Collectors.toSet());
         prof1.setStudentSet(studentSet);
         prof2.setStudentSet(studentSet);
 
