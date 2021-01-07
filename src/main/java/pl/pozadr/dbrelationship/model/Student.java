@@ -12,6 +12,9 @@ public class Student {
     private String surname;
     private String groupNumber;
 
+    @OneToOne
+    private Backpack backpack;
+
     public Student() {
     }
 
@@ -19,6 +22,14 @@ public class Student {
         this.name = name;
         this.surname = surname;
         this.groupNumber = groupNumber;
+    }
+
+    public Backpack getBackpack() {
+        return backpack;
+    }
+
+    public void setBackpack(Backpack backpack) {
+        this.backpack = backpack;
     }
 
     public Long getId() {

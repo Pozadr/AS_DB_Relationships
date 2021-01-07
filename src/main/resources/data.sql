@@ -1,7 +1,7 @@
-INSERT INTO students (name, surname, groupNumber)
+INSERT INTO students (name, surname, group_number)
 values ('Adam', 'Kowalski', '165 NCB');
 
-INSERT INTO students (name, surname, groupNumber)
+INSERT INTO students (name, surname, group_number)
 values ('Adrian', 'Nowak', '175 NCA');
 
 INSERT INTO backpacks (mark)
