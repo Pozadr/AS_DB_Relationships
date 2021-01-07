@@ -1,6 +1,7 @@
 package pl.pozadr.dbrelationship.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "notepads")
@@ -13,6 +14,8 @@ public class Notepad {
     @ManyToOne
     private Backpack backpack;
 
+    @OneToMany(mappedBy = "notepad")
+    private Set<Note> noteSet;
 
     public Notepad() {
     }
@@ -23,6 +26,14 @@ public class Notepad {
 
     public Backpack getBackpack() {
         return backpack;
+    }
+
+    public Set<Note> getNoteSet() {
+        return noteSet;
+    }
+
+    public void setNoteSet(Set<Note> noteSet) {
+        this.noteSet = noteSet;
     }
 
     public void setBackpack(Backpack backpack) {

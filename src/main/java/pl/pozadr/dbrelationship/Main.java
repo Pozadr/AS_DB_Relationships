@@ -1,16 +1,11 @@
 package pl.pozadr.dbrelationship;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-import pl.pozadr.dbrelationship.model.Backpack;
-import pl.pozadr.dbrelationship.model.Notepad;
-import pl.pozadr.dbrelationship.model.Professor;
-import pl.pozadr.dbrelationship.model.Student;
-import pl.pozadr.dbrelationship.repository.BackpackRepo;
-import pl.pozadr.dbrelationship.repository.NotepadRepo;
-import pl.pozadr.dbrelationship.repository.ProfesorRepo;
-import pl.pozadr.dbrelationship.repository.StudentRepo;
+import pl.pozadr.dbrelationship.model.*;
+import pl.pozadr.dbrelationship.repository.*;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -23,12 +18,16 @@ public class Main {
     StudentRepo studentRepo;
     NotepadRepo notepadRepo;
     ProfesorRepo professorRepo;
+    NoteRepo noteRepo;
 
-    public Main(BackpackRepo backpackRepo, StudentRepo studentRepo, NotepadRepo notepadRepo, ProfesorRepo professorRepo) {
+    @Autowired
+    public Main(BackpackRepo backpackRepo, StudentRepo studentRepo, NotepadRepo notepadRepo, ProfesorRepo professorRepo,
+                NoteRepo noteRepo) {
         this.backpackRepo = backpackRepo;
         this.studentRepo = studentRepo;
         this.notepadRepo = notepadRepo;
         this.professorRepo = professorRepo;
+        this.noteRepo = noteRepo;
     }
 
     @EventListener(ApplicationReadyEvent.class)
@@ -50,8 +49,34 @@ public class Main {
         physNotepad.setBackpack(nikeBackpack);
         notepadRepo.save(physNotepad);
         Notepad itNotepad = new Notepad("It");
-        physNotepad.setBackpack(nikeBackpack);
+        itNotepad.setBackpack(nikeBackpack);
         notepadRepo.save(itNotepad);
+
+        // notes
+        Note historicNote1 = new Note("HIS 121");
+        historicNote1.setNotepad(histNotepad);
+        noteRepo.save(historicNote1);
+        Note historicNote2 = new Note("HIS 122");
+        historicNote2.setNotepad(histNotepad);
+        noteRepo.save(historicNote2);
+        Note historicNote3 = new Note("HIS 123");
+        historicNote3.setNotepad(histNotepad);
+        noteRepo.save(historicNote3);
+        Note mathNote1 = new Note("MATH 171");
+        mathNote1.setNotepad(mathNotepad);
+        noteRepo.save(mathNote1);
+        Note mathNote2 = new Note("MATH 172");
+        mathNote2.setNotepad(mathNotepad);
+        noteRepo.save(mathNote2);
+        Note physNote1 = new Note("PHYS 501");
+        physNote1.setNotepad(physNotepad);
+        noteRepo.save(physNote1);
+        Note physNote2 = new Note("PHYS 502");
+        physNote2.setNotepad(physNotepad);
+        noteRepo.save(physNote2);
+        Note physNote3 = new Note("PHYS 503");
+        physNote3.setNotepad(physNotepad);
+        noteRepo.save(physNote3);
 
         // students
         Student student1 = new Student("Adam", "Kowalski", "150");
