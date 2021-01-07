@@ -1,6 +1,7 @@
 package pl.pozadr.dbrelationship.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "students")
@@ -15,6 +16,9 @@ public class Student {
     @OneToOne
     private Backpack backpack;
 
+    @ManyToMany(mappedBy = "studentSet")
+    private Set<Professor> professorSet;
+
     public Student() {
     }
 
@@ -22,6 +26,15 @@ public class Student {
         this.name = name;
         this.surname = surname;
         this.groupNumber = groupNumber;
+    }
+
+
+    public Set<Professor> getProfessorSet() {
+        return professorSet;
+    }
+
+    public void setProfessorSet(Set<Professor> professorSet) {
+        this.professorSet = professorSet;
     }
 
     public Backpack getBackpack() {

@@ -1,30 +1,34 @@
 package pl.pozadr.dbrelationship;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import pl.pozadr.dbrelationship.model.Backpack;
 import pl.pozadr.dbrelationship.model.Notepad;
+import pl.pozadr.dbrelationship.model.Professor;
 import pl.pozadr.dbrelationship.model.Student;
 import pl.pozadr.dbrelationship.repository.BackpackRepo;
 import pl.pozadr.dbrelationship.repository.NotepadRepo;
+import pl.pozadr.dbrelationship.repository.ProfesorRepo;
 import pl.pozadr.dbrelationship.repository.StudentRepo;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 
 @Component
 public class Main {
     BackpackRepo backpackRepo;
     StudentRepo studentRepo;
     NotepadRepo notepadRepo;
+    ProfesorRepo professorRepo;
 
-    @Autowired
-    public Main(BackpackRepo backpackRepo, StudentRepo studentRepo, NotepadRepo notepadRepo) {
+    public Main(BackpackRepo backpackRepo, StudentRepo studentRepo, NotepadRepo notepadRepo, ProfesorRepo professorRepo) {
         this.backpackRepo = backpackRepo;
         this.studentRepo = studentRepo;
         this.notepadRepo = notepadRepo;
+        this.professorRepo = professorRepo;
     }
 
     @EventListener(ApplicationReadyEvent.class)
@@ -50,16 +54,27 @@ public class Main {
         notepadRepo.save(itNotepad);
 
         // students
-        Student adam = new Student("Adam", "Kowalski", "150");
-        adam.setBackpack(adidasBackpack);
-        studentRepo.save(adam);
+        Student student1 = new Student("Adam", "Kowalski", "150");
+        student1.setBackpack(adidasBackpack);
+        Student student2 = new Student("Adrian", "Nowak", "185");
+        student2.setBackpack(nikeBackpack);
+        Set<Student> studentSet = Stream.of(student1, student2).collect(Collectors.toSet());
 
-        Student adrian = new Student("Adrian", "Nowak", "185");
-        adrian.setBackpack(nikeBackpack);
-        studentRepo.save(adrian);
+        //professors
+        Professor prof1 = new Professor("Antoni", "Znamsie", "dr hab.");
+        Professor prof2 = new Professor("Janusz", "Wiem", "dr");
+        Set<Professor> professorSet = Stream.of(prof1, prof2).collect(Collectors.toSet());
 
+        prof1.setStudentSet(studentSet);
+        prof2.setStudentSet(studentSet);
 
+        student1.setProfessorSet(professorSet);
+        student2.setProfessorSet(professorSet);
 
+        studentRepo.save(student1);
+        studentRepo.save(student2);
 
+        professorRepo.save(prof1);
+        professorRepo.save(prof2);
     }
 }

@@ -1,10 +1,11 @@
 package pl.pozadr.dbrelationship.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
-@Table(name = "profesors")
-public class Profesor {
+@Table(name = "professors")
+public class Professor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -12,14 +13,25 @@ public class Profesor {
     private String surname;
     private String title;
 
+    @ManyToMany
+    private Set<Student> studentSet;
 
-    public Profesor() {
+
+    public Professor() {
     }
 
-    public Profesor(String name, String surname, String title) {
+    public Professor(String name, String surname, String title) {
         this.name = name;
         this.surname = surname;
         this.title = title;
+    }
+
+    public Set<Student> getStudentSet() {
+        return studentSet;
+    }
+
+    public void setStudentSet(Set<Student> studentSet) {
+        this.studentSet = studentSet;
     }
 
     public Long getId() {
