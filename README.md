@@ -1,4 +1,4 @@
-# AS_DB_Relationships
+# AS_SQL_Relationships
 [*Spring boot 2 academy*](https://www.akademiaspring.pl/)
 
 ## General
